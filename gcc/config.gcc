@@ -2044,8 +2044,17 @@ riscv*-*-linux*)
 	# automatically detect that GAS supports it, yet we require it.
 	gcc_cv_initfini_array=yes
 	;;
-riscv*-*-elf* | riscv*-*-rtems*)
-	tm_file="elfos.h newlib-stdint.h ${tm_file} riscv/elf.h"
+# [GNU MCU Eclipse]
+riscv*-*-elf* | riscv*-*-rtems* | riscv-none-embed)
+	# [GNU MCU Eclipse]
+	case ${target} in
+	riscv-none-embed)
+	  tm_file="elfos.h newlib-stdint.h ${tm_file} riscv/elf-embed.h"
+	  ;;
+	*)
+	  tm_file="elfos.h newlib-stdint.h ${tm_file} riscv/elf.h"
+	  ;;
+	esac
 	case "x${enable_multilib}" in
 	xno) ;;
 	xyes) tmake_file="${tmake_file} riscv/t-elf-multilib" ;;
@@ -3992,6 +4001,8 @@ case "${target}" in
 		case "${target}" in
 		riscv32*) xlen=32 ;;
 		riscv64*) xlen=64 ;;
+		# [GNU MCU Eclipse]
+		riscv*) xlen=64 ;;
 		*) echo "Unsupported RISC-V target ${target}" 1>&2; exit 1 ;;
 		esac
 
