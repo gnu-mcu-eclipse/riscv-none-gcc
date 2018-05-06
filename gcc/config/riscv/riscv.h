@@ -519,6 +519,9 @@ enum reg_class
    `crtl->outgoing_args_size'.  */
 #define OUTGOING_REG_PARM_STACK_SPACE(FNTYPE) 1
 
+// [GNU MCU Eclipse]; builds with gcc 7.2 fail with:
+// error: 'riscv_stack_boundary' was not declared in this scope
+extern unsigned riscv_stack_boundary;
 #define STACK_BOUNDARY riscv_stack_boundary
 
 /* Symbolic macros for the registers used to return integer and floating
